@@ -9,6 +9,7 @@ load_dotenv()
 DISCORD_API_SECRET = os.getenv("DISCORD_API_TOKEN")
 BUDDHA_API_URL = os.getenv("BUDDHA_API_URL")
 INSULTS_API_URL = os.getenv("INSULTS_API_URL")
+NPC_API_URL = os.getenv("NPC_API_URL")
 
 
 LOGGING_CONFIG = {

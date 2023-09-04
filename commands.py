@@ -15,6 +15,10 @@ def run():
     @bot.event 
     async def on_ready():
         logger.info(f"User: {bot.user} (ID: {bot.user.id})")
+        
+    @bot.command()
+    async def ping(ctx):
+        await ctx.send("pong")
     
     @bot.command(
         aliases=['wisdom', 'wis'],
@@ -47,6 +51,28 @@ def run():
         except Exception as e:
             logger.error(e)
             await ctx.send("Sorry, I couldn't retrieve an insult at this time")
+            
+    @bot.command(
+        aliases=['npc'],
+        help="Random Generators",
+        description="Retrieves a randomly generated NPC",
+        enabled=True
+    )
+    async def randomnpc(ctx):
+        try:
+            response = requests.get(settings.NPC_API_URL)
+            data = response.json()
+            name = data.get("name", "Unknown")
+            appearance = data.get("appearance", "Unknown")
+            beliefs = data.get("beliefs", "Unknown")
+            secrets = data.get("secrets", "Unknown")
+            extras = data.get("extras", "Unknown")
+            
+            message = f"Name: {name}\nAppearance: {appearance}\nBeliefs: {beliefs}\nSecrets: {secrets}\nExtras: {extras}"
+            await ctx.send(message)
+        except Exception as e:
+            logger.error(e)
+            await ctx.send("Sorry, I couldn't retrieve an NPC at this time")
 
     bot.run(settings.DISCORD_API_SECRET, root_logger=True)
 
